@@ -126,8 +126,13 @@ _createKeys() {
                 keyElement.classList.add("keyboard__key_backspace");
                 keyElement.textContent= "Backspace";
                 keyElement.addEventListener("click", () => {
-                       
-                    this.properties.value = this.properties.value.substring(0, this.properties.value.length - 1);
+                    let text = textarea.value;
+                    console.log("text=", textarea.value)
+                    let position = textarea.selectionStart;  
+                    console.log("position==", textarea.selectionStart);
+                    text=this.properties.value
+                    //this.properties.value = this.properties.value.substring(0, this.properties.value.length - 1);
+                    this.properties.value = this.properties.value.slice(0, position - 1)+this.properties.value.slice(position, this.properties.value.length );
                     this._triggerEvent("oninput");
                 });
 
@@ -234,9 +239,9 @@ _createKeys() {
           // keyElement.innerHTML = createIconHTML("arrow-down-drop-circle");
             keyElement.innerHTML= "Left";
             keyElement.addEventListener("click", () => {
-                console.log("textarea.selectionEnd" + textarea.selectionEnd)
-                
-                this._triggerEvent("");
+                let text = textarea.value;
+                let position = textarea.selectionStart;
+                this._triggerEvent("oninput");
             });
 
              break; 
@@ -315,14 +320,17 @@ _toggleCapsLock() {
       
 ,
 
+ moveCaretToStart(inputObject) { 
+ if (inputObject.createTextRange)
+  {
+  var r = inputObject.createTextRange();
+  r.collapse(true);
+  r.select();
+ }
 
+},
 
-
-
-
-
-
-   open (initialValue, oninput, onclose) {
+ open (initialValue, oninput, onclose) {
     console.log("this.properties.value=" +this.properties.value);
     console.log("initialValue" +initialValue)
     this.properties.value = initialValue || "";
