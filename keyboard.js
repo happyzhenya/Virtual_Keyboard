@@ -241,7 +241,7 @@ const Keyboard = {
       return `<i class="material-icons">${icon_name}</i>`;
     };
 
-    console.log("UNIT this.properties.language=", this.properties.language);
+   
 
     if (this.properties.language == "english") {
       keyLayout = keyLayoutEn;
@@ -405,33 +405,33 @@ const Keyboard = {
 
         case "ArrowUp":
           keyElement.classList.add("keyboard__key_up");
-          // keyElement.innerHTML = createIconHTML("arrow-down-drop-circle");
           keyElement.innerHTML = "Up";
 
           break;
 
         case "ArrowDown":
           keyElement.classList.add("keyboard__key_down");
-          // keyElement.innerHTML = createIconHTML("arrow-down-drop-circle");
           keyElement.innerHTML = "Down";
           keyElement.addEventListener("click", () => {
-            if (textarea.selectionStart) {
-              console.log("this.properties.value", textarea.selectionStart);
-              textarea.setSelectionRange(
-                textarea.selectionStart,
-                textarea.selectionStart + "\n"
-              );
+          console.log("textarea.selectionStart", textarea.selectionStart);
+          console.log("textarea.selectionEnd", textarea.selectionEnd);
+
+          start = textarea.selectionStart;
+          lineindex = textarea.value.substring(0,start).split("\n").length-1;
+          charsTotal = textarea.value.split("\n")[lineindex].length;
+
+          textarea.selectionStart += charsTotal+1;
+          textarea.selectionEnd = textarea.selectionStart;
               textarea.focus();
-              textarea.selectionStart=textarea.selectionStartd + "\n"
-            }
-            this._triggerEvent("oninput");
+              this._triggerEvent("oninput");
+            
+            
           });
           break;
 
         case "ArrowLeft":
           keyElement.classList.add("keyboard__key_left");
-          // keyElement.innerHTML = createIconHTML("arrow-down-drop-circle");
-          keyElement.innerHTML = "Left";
+           keyElement.innerHTML = "Left";
           keyElement.addEventListener("click", () => {
             let text = textarea.value;
             if (textarea.selectionEnd) {
@@ -458,7 +458,7 @@ const Keyboard = {
               console.log("textarea.selectionEnd", textarea.selectionEnd);
              
               textarea.setSelectionRange(
-                textarea.selectionEnd,
+                textarea.selectionEnd+1,
                 textarea.selectionEnd+1,
                 "forward"
               );
@@ -495,8 +495,7 @@ const Keyboard = {
 
         default:
           keyElement.textContent = key.toLowerCase();
-          console.log("key===default", key);
-          keyElement.addEventListener("click", () => {
+           keyElement.addEventListener("click", () => {
             this.properties.value += this.properties.capsLock
               ? key.toUpperCase()
               : key.toLowerCase();
@@ -543,8 +542,8 @@ const Keyboard = {
 
 
   open(initialValue, oninput, onclose) {
-    console.log("this.properties.value=" + this.properties.value);
-    console.log("initialValue" + initialValue);
+   // console.log("this.properties.value=" + this.properties.value);
+  //  console.log("initialValue" + initialValue);
     this.properties.value = initialValue || "";
     this.eventHandlers.oninput = oninput;
   },
@@ -588,7 +587,7 @@ function getLocalStorage() {
 window.addEventListener("load", getLocalStorage);
 
 document.onkeydown = function (event) {
-  console.log("event-key===" + event.key);
+ // console.log("event-key===" + event.key);
   document.querySelectorAll(".keyboard__key").forEach(function (elem) {
     elem.classList.remove("keyboard__key--active-color");
   });
