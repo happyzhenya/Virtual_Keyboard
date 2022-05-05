@@ -272,6 +272,9 @@ const Keyboard = {
             this.properties.value =
               this.properties.value.slice(0, position - 1) +
               this.properties.value.slice(position);
+            textarea.selectionStart = position -1;
+            textarea.selectionEnd = textarea.selectionStart;
+
             this._triggerEvent("oninput");
           });
 
@@ -280,6 +283,18 @@ const Keyboard = {
         case "Tab":
           keyElement.classList.add("keyboard__key_tab");
           keyElement.innerHTML = "Tab";
+          
+          keyElement.addEventListener("click", () => {
+            let position = textarea.selectionStart;
+            let front = textarea.value.substring(0,position);
+            let back = textarea.value.substring(position,textarea.value.length);
+            textarea.value = front + "    "+back;
+            textarea.selectionStart = position + 4;
+            textarea.selectionEnd = textarea.selectionStart;
+            textarea.focus();
+            this._triggerEvent("oninput");
+          });
+
           break;
 
         case "Delete":
@@ -297,7 +312,9 @@ const Keyboard = {
           this.properties.value.slice(0, position) + this.properties.value.slice(position+1);
           console.log("position after", position)
          
-         
+          textarea.selectionStart = position;
+          textarea.selectionEnd = textarea.selectionStart;
+
            this._triggerEvent("oninput");})
            
 
@@ -406,16 +423,26 @@ const Keyboard = {
         case "ArrowUp":
           keyElement.classList.add("keyboard__key_up");
           keyElement.innerHTML = "Up";
-
+          keyElement.addEventListener("click", () => {
+          
+          start = textarea.selectionStart;
+          lineindex = textarea.value.substring(0,start).split("\n").length-1;
+          charsTotal = textarea.value.split("\n")[lineindex-1].length;
+  
+          textarea.selectionStart -= charsTotal+1;
+          textarea.selectionEnd = textarea.selectionStart;
+          textarea.focus();
+          this._triggerEvent("oninput");
+              
+              
+            });
           break;
 
         case "ArrowDown":
           keyElement.classList.add("keyboard__key_down");
           keyElement.innerHTML = "Down";
           keyElement.addEventListener("click", () => {
-          console.log("textarea.selectionStart", textarea.selectionStart);
-          console.log("textarea.selectionEnd", textarea.selectionEnd);
-
+          
           start = textarea.selectionStart;
           lineindex = textarea.value.substring(0,start).split("\n").length-1;
           charsTotal = textarea.value.split("\n")[lineindex].length;
