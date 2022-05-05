@@ -36,8 +36,13 @@ body.append(title);
 const descriptinon = document.createElement("p");
 descriptinon.classList.add("description");
 descriptinon.textContent =
-  "Клавиатура создана в операционной системе Windows. Переключение языка -клавиша WIN";
+  "Клавиатура создана в операционной системе Windows.";
 body.append(descriptinon);
+const descriptinonTranslate = document.createElement("p");
+descriptinonTranslate.classList.add("descriptinonTranslate");
+descriptinonTranslate.textContent =
+  "Переключение языка -клавиша WIN на виртуальной клаиатуре. Сочетание клавиш -Ctrl+Alt";
+body.append(descriptinonTranslate);
 const textarea = document.createElement("textarea");
 textarea.classList.add("keybord_text");
 body.append(textarea);
@@ -370,31 +375,7 @@ const Keyboard = {
 
           break;
        
-          case "Control" + "Atl":
-            keyElement.classList.add("keyboard__key_win");
-            keyElement.innerHTML = "Win";
-            keyElement.setAttribute("id", "meta");
-            keyElement.addEventListener("click", () => {
-              console.log("meta==", this.properties.language);
-              if (this.properties.language == "english") {
-                this.properties.language = "rus";
-                language == "rus";
-  
-                this.elements.main.remove(this.elements.keysContainer);
-                this.init();
-              } else if (this.properties.language == "rus") {
-                this.properties.language = "english";
-                language == "english";
-                this.elements.main.remove(this.elements.keysContainer);
-                this.init();
-              }
-            });
-  
-            break;
-
-        
-
-
+          
         case "Meta":
           keyElement.classList.add("keyboard__key_win");
           keyElement.innerHTML = "Win";
@@ -422,7 +403,7 @@ const Keyboard = {
 
         case "ArrowUp":
           keyElement.classList.add("keyboard__key_up");
-          keyElement.innerHTML = "Up";
+          keyElement.innerHTML = "";
           keyElement.addEventListener("click", () => {
           
           start = textarea.selectionStart;
@@ -440,7 +421,7 @@ const Keyboard = {
 
         case "ArrowDown":
           keyElement.classList.add("keyboard__key_down");
-          keyElement.innerHTML = "Down";
+          keyElement.innerHTML = "";
           keyElement.addEventListener("click", () => {
           
           start = textarea.selectionStart;
@@ -458,7 +439,7 @@ const Keyboard = {
 
         case "ArrowLeft":
           keyElement.classList.add("keyboard__key_left");
-           keyElement.innerHTML = "Left";
+           keyElement.innerHTML = "";
           keyElement.addEventListener("click", () => {
             let text = textarea.value;
             if (textarea.selectionEnd) {
@@ -478,7 +459,7 @@ const Keyboard = {
         case "ArrowRight":
           keyElement.classList.add("keyboard__key_right");
           // keyElement.innerHTML = createIconHTML("arrow-down-drop-circle");
-          keyElement.innerHTML = "Right";
+          keyElement.innerHTML = "";
           keyElement.addEventListener("click", () => {
            textarea.focus();
             if (textarea.selectionEnd) {
@@ -506,20 +487,7 @@ const Keyboard = {
 
           break;
 
-        case "done":
-          keyElement.classList.add(
-            "keyboard__key--wide",
-            "keyboard__key--dark"
-          );
-          keyElement.innerHTML = createIconHTML("check_circle");
-
-          keyElement.addEventListener("click", () => {
-            this.close();
-            this._triggerEvent("onclose");
-          });
-
-          break;
-
+        
         default:
           keyElement.textContent = key.toLowerCase();
            keyElement.addEventListener("click", () => {
@@ -613,16 +581,62 @@ function getLocalStorage() {
 }
 window.addEventListener("load", getLocalStorage);
 
-document.onkeydown = function (event) {
- // console.log("event-key===" + event.key);
+document.onkeydown = function (e) {
+  console.log("event-key===" + e.key);
+
   document.querySelectorAll(".keyboard__key").forEach(function (elem) {
     elem.classList.remove("keyboard__key--active-color");
   });
-  Keyboard.properties.value += event.key;
-  document
-    .querySelector('.keyboard__key[data="' + event.key + '"]')
+  Keyboard.properties.value += e.key;
+  document.querySelector('.keyboard__key[data="' + e.key + '"]')
     .classList.add("keyboard__key--active-color");
+
+
+    e=e || window.event;
+  if (e.ctrlKey && e.altKey){
+    
+    if (Keyboard.properties.language == "english") {
+      language = "rus";
+      setLocalStorage();
+      Keyboard.properties.language="rus"
+      Keyboard.elements.main.remove(Keyboard.elements.keysContainer);
+      Keyboard.init();
+    } else if (Keyboard.properties.language == "rus") {
+      language = "english";
+      setLocalStorage();
+      Keyboard.properties.language = "english";
+      
+      Keyboard.properties.language==language
+      Keyboard.elements.main.remove(Keyboard.elements.keysContainer);
+      Keyboard.init();
+    }
+  }
+  return true;
 };
+
+/*document.onkeydown=function(e){
+  e=e || window.event;
+  if (e.ctrlKey && e.altKey){
+    
+    if (Keyboard.properties.language == "english") {
+      language = "rus";
+      setLocalStorage();
+      Keyboard.properties.language="rus"
+      Keyboard.elements.main.remove(Keyboard.elements.keysContainer);
+      Keyboard.init();
+    } else if (Keyboard.properties.language == "rus") {
+      language = "english";
+      setLocalStorage();
+      Keyboard.properties.language = "english";
+      
+      Keyboard.properties.language==language
+      Keyboard.elements.main.remove(Keyboard.elements.keysContainer);
+      Keyboard.init();
+    }
+  }
+  return true;
+}
+
 
 
 

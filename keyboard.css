@@ -55,6 +55,8 @@ p{
     justify-content: center;
     vertical-align: top;
     padding: 0;
+   user-select: none;
+    transition: border-radius 0.3s, background-color 0.3s;
     -webkit-tap-highlight-color: transparent;
     position: relative;
 }
@@ -100,8 +102,33 @@ p{
 }
 
 .keyboard__key_up{
-    width: 45px;
   
+    background-image: url(./assets/svg/up.svg );
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+  
+}
+
+.keyboard__key_down{
+    background-image: url(./assets/svg/down.svg );
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.keyboard__key_left{
+    background-image: url(./assets/svg/left.svg );
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.keyboard__key_right{
+    background-image: url(./assets/svg/right.svg );
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .keyboard__key_ctrl{
