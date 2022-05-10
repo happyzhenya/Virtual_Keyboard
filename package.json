@@ -1,0 +1,31 @@
+{
+  "name": "virtual_keyboard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "keyboard.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint" :"eslint ./keyboard.js",
+    "lint:fix": "eslint ././keyboard.js --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/happyzhenya/Virtual_Keyboard.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/happyzhenya/Virtual_Keyboard/issues"
+  },
+  "homepage": "https://github.com/happyzhenya/Virtual_Keyboard#readme",
+  "devDependencies": {
+    "eslint": "^8.14.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-html": "^6.2.0",
+    "eslint-prettier": "0.0.0-empty",
+    "prettier": "^2.6.2"
+    
+  }
+}
