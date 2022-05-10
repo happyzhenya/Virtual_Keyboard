@@ -374,6 +374,7 @@ const Keyboard = {
           keyElement.addEventListener('click', () => {
             const start = textarea.selectionStart;
             const lineindex = textarea.value.substring(0, start).split('\n').length - 1;
+            if (lineindex === 0) return;
             const charsTotal = textarea.value.split('\n')[lineindex - 1].length;
 
             textarea.selectionStart -= charsTotal + 1;
